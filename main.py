@@ -26,11 +26,11 @@ custom_prompt_template = """
     Context: {context}
     Question: {question}
      
-    Try your best to give the answer. If you can't find the answer, say this "Sorry I can't help you on this query, Please see the guidelines and FAQs on the following link: https://www.neduet.edu.pk/admission, or contact administrator if you are facing problems".
+    Try your best to give the answer. 
     Also try to add some your own wordings the describe the answer.
     Helpful Answer:
 """
-
+# If you can't find the answer, say this "Sorry I can't help you on this query, Please see the guidelines and FAQs on the following link: https://www.neduet.edu.pk/admission, or contact administrator if you are facing problems".
 def set_custom_prompt():
     """
     Prompt template for QA retrieval for each vectorstore
@@ -81,4 +81,5 @@ app = FastAPI()
 @app.post("/llm_on_cpu")
 async def final_result(item: validation):
         response = user_input(item.prompt)
+        response['output_text'] = response['output_text'].replace("\n", " ")
         return response
